@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Colors for syntax highlighting
+
+COLORS = {
+    'line_number': '#35f',
+    'keyword': '#1cc',
+    'operator': '#188',
+    'identifier': '#ddd',
+    'dec': '#e4e',
+    'hex': '#1e1',
+    'str': '#e81',
+    'data': '#ee1',
+    'comment': '#777',
+    'separator': '#555',
+    'special': '#f22'
+}
+
 # MZ-1Z016 (800 Basic) tokens
 
 TOKENS = {
@@ -198,21 +214,21 @@ OTHER = {
     0x67: '☻',    # \u263b BLACK SMILING FACE
     0x68: '☺',    # \u263a WHITE SMILING FACE
     # 0x69: '🐍',    # \U0001f40d
-    0x6e: '⟛',    # \u27db
+    0x6e: '⟛',    # \u27db LEFT AND RIGHT TACK
     0x70: '▒',    # \u2592 MEDIUM SHADE
     0x7b: '°',    # \u00b0 DEGREE SIGN
     0x7d: '⫽',    # \u2afd DOUBLE SOLIDUS OPERATOR
                   #        see also integer division operator TOKENS[0xf9]
     0x7f: '⍗',    # \u2357 APL FUNCTIONAL SYMBOL QUAD DOWNWARDS ARROW
     0x80: '}',    # \u007d RIGHT CURLY BRACKET
-    0x81: '┼',    # \u253c
+    0x81: '┼',    # \u253c BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL
     0x86: '⎝',    # \u239d LEFT PARENTHESIS LOWER HOOK
     0x8b: '^',    # \u005e CIRCUMFLEX ACCENT
                   #        see also OTHER[0x5e]
     0x8d: '⎞',    # \u239e RIGHT PARENTHESIS UPPER HOOK
     0x8e: '⎠',    # \u23a0 RIGHT PARENTHESIS LOWER HOOK
     0x90: '_',    # \u005f LOW LINE
-    0x91: '╬',    # \u2563       ⌗ \u2317 VIEWDATA SQUARE
+    0x91: '╬',    # \u256c BOX DRAWINGS DOUBLE VERTICAL AND HORIZONTAL
     0x92: 'e',    # \u0065 LATIN SMALL LETTER E
     0x93: '`',    # \u0060 GRAVE ACCENT
     0x94: '~',    # \u007e TILDE
@@ -255,17 +271,18 @@ OTHER = {
     0xc0: '|',    # \u007c VERTICAL LINE
     0xc1: '▐',    # \u2590 RIGHT HALF BLOCK
     0xc2: '▄',    # \u2584 LOWER HALF BLOCK
+    0xc4: '▁',    # \u2581 LOWER ONE EIGHTH BLOCK
     0xc6: '→',    # \u2192 RIGHTWARDS ARROW
     0xc8: '█',    # \u2588 FULL BLOCK
     0xc9: '◤',    # \u25e4 BLACK UPPER LEFT TRIANGLE
-    0xcb: '├',    # \u251c
+    0xcb: '├',    # \u251c BOX DRAWINGS LIGHT VERTICAL AND RIGHT
     0xcc: '⌼',    # \u233c APL FUNCTIONAL SYMBOL QUAD CIRCLE
     0xcd: '└',    # \u2514 BOX DRAWINGS LIGHT UP AND RIGHT
     0xce: '┐',    # \u2510 BOX DRAWINGS LIGHT DOWN AND LEFT
     0xd0: '┌',    # \u250c BOX DRAWINGS LIGHT DOWN AND RIGHT
-    0xd1: '┴',    # \u2534
-    0xd2: '┬',    # \u252c
-    0xd3: '┤',    # \u2524
+    0xd1: '┴',    # \u2534 BOX DRAWINGS LIGHT UP AND HORIZONTAL
+    0xd2: '┬',    # \u252c BOX DRAWINGS LIGHT DOWN AND HORIZONTAL
+    0xd3: '┤',    # \u2524 BOX DRAWINGS LIGHT VERTICAL AND LEFT
     0xd5: '▌',    # \u258c LEFT HALF BLOCK
     0xd8: '▀',    # \u2580 UPPER HALF BLOCK
     0xd9: '▃',    # \u2583 LOWER THREE EIGHTHS BLOCK
@@ -275,7 +292,7 @@ OTHER = {
     0xdd: '┘',    # \u2518 BOX DRAWINGS LIGHT UP AND LEFT
     0xde: '▞',    # \u259e QUADRANT UPPER RIGHT AND LOWER LEFT
     0xdf: '▚',    # \u259a QUADRANT UPPER LEFT AND LOWER RIGHT
-    0xe0: '─',    # \u2500
+    0xe0: '─',    # \u2500 BOX DRAWINGS LIGHT HORIZONTAL
     0xe1: '♠',    # \u2660 BLACK SPADE SUIT
     0xe9: '◣',    # \u25e3 BLACK LOWER LEFT TRIANGLE
     0xea: '╰',    # \u2570 BOX DRAWINGS LIGHT ARC UP AND RIGHT
@@ -294,7 +311,7 @@ OTHER = {
     0xfa: '♦',    # \u2666 BLACK DIAMOND SUIT
     0xfb: '£',    # \u00a3 POUND SIGN
     0xfc: '↓',    # \u2193 DOWNWARDS ARROW
-    0xfd: '│',    # \u2502
+    0xfd: '│',    # \u2502 BOX DRAWINGS LIGHT VERTICAL
     0xfe: '◥',    # \u25e5 BLACK UPPER RIGHT TRIANGLE
     0xff: 'π',    # \u03c0 GREEK SMALL LETTER PI
                   #        see also Pi constant TOKENS[0xe4]
