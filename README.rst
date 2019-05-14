@@ -1,4 +1,4 @@
-Display `Sharp MZ<https://en.wikipedia.org/wiki/Sharp_MZ>`_ Basic programs as syntax-highlighted Unicode text.
+Display `Sharp MZ <https://en.wikipedia.org/wiki/Sharp_MZ>`_ Basic programs as syntax-highlighted Unicode text.
 
 The main goal is to display all non-ascii pseudo-graphic chars from the Sharp MZ charset as closely as possible using existing Unicode chars.
 

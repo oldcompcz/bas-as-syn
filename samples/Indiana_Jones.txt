@@ -1,0 +1,297 @@
+1 'Original SINCLAIR ZX Spectrum version by F.Fuka 1985
+2 'SHARP MZ-800 version and F.Fuka's mistake correction and own mistakes creation by ScS 1987
+3 'All comments address to                        Pavel Kouril                            Nerudova 29                     796 01  Prostejov                               C.S.S.R.
+5 GOTO9000
+10 PR=0
+50 P=0:X$=X$+" ":Q$=""
+60 FORI=1TOLEN(X$):Q$=Q$+MID$(X$,I,1):IFMID$(X$,I,1)<>" "THEN200
+100 IFP+LEN(Q$)>39THENPRINT:P=0:PR=PR+1:IFPR=20THENPRINT:PRINT"Stiskni tlacitko."INPUTHP
+110 SOUND40+LEN(Q$),1:PRINTQ$;:P=P+LEN(Q$):Q$=""
+200 NEXTI:PRINT:RETURN
+210 DATAs,j,z,v,n,d,vezmi,seber,poloz,prohledni,prozkoumej,r,otevri,zavri,stiskni,zmackni,nastup,vlez,vejdi,vystup,vylez,vyjdi,i,privaz,pripevni,odvaz,otoc,zapal,vloz,uloz,pomoc,load,save,konec,quit,slovnik
+211 DATA" STOP"
+300 DATA"",""
+301 DATA000400,Stojis na mytine u obrovskeho skalniho masivu. Ve skale je u zeme maly pruchod. Dalsi pomerne velky otvor ve skale je asi 15 metru nad tebou.
+302 DATA@03507,"Jsi na zacatku siroke chodby, ktera pokracuje na vychod. Uprostred podlahy usti hluboka vetraci sachta. Primo nad ustim sachty je ve strope silny tram."
+303 DATA004600,"Jsi uprostred siroke chodby, ktera pokracuje na zapad a na vychod. Podlaha tvori jakysi trychtyr, ktery usti do maleho otvoru v zemi. Zem je vlhka a kluzka."
+304 DATA005000,Jsi na vychodnim konci siroke chodby.
+305 DATA0=0048,"Visis na lane uprostred vetraci sachty, ktera pokracuje nahoru i dolu. V jizni stene jsou "
+306 DATA0;0970,Stojis na hromade kameni. Nad tebou se ve strope cerna usti vetraci sachty.
+307 DATA"008:00",Jsi v uzke chodbe. Ve strope je maly otvor.
+308 DATA009000,Jsi na konci uzke chodby.
+309 DATA80000<,"Jsi v prostorne jeskyni. Ze zdi usti tlusta roura s kohoutem. V podlaze jsou "
+310 DATA0000;0,Jsi v zatuchle jame.
+311 DATA7>00>0,"Jsi v provlhle mistnosti. V rohu podlahy je maly otvor. Na jih od tebe zacina schodiste, vedouci vzhuru. V severni zdi jsou "
+312 DATA=?000=,"Jsi na vrcholu schodiste. Je tu plno pavucin, zrejme zde uz dlouho nikdo nebyl."
+313 DATA>C0000,Jsi u vstupu do chramu. Na jihu je zlatem vykladana brana.
+314 DATAA40000,"Jsi v hlavni stole. Zacinaji tu koleje, ktere pokracuji na sever. Na kolejich stoji dulni lokomotiva."
+315 DATAB@0000,"Jsi uprostred hlavni stoly, ktera pokracuje na sever a na jih. Po zemi lezou odporni pavouci."
+316 DATA0A0000,"Jsi na severnim konci hlavni stoly. Na kolejich, ktere zde konci, stoji dulni lokomotiva."
+317 DATA?CDCCC,Jsi v bludisti.
+318 DATAECCCCC,Jsi v bludisti.
+319 DATACGFCCC,Jsi v bludisti.
+320 DATACCCCCC,Jsi v bludisti.
+321 DATACCCHCC,Jsi v bludisti.
+322 DATACCCICC,Jsi v bludisti.
+323 DATACCCCJC,Jsi v bludisti.
+324 DATAKCCCCC,Jsi v bludisti.
+325 DATACLCCCC,Jsi v bludisti.
+326 DATAKM000M,"Jsi na severnim okraji velke prohlubne, ve ktere se prevaluji mracna zeleneho plynu."
+327 DATALN0000,Jsi obklopen spinave zelenym plynem.
+328 DATAM00O0M,"Jsi na jiznim okraji velke prohlubne, ve ktere se prevaluji mracna zeleneho plynu."
+329 DATA00NP00,Jsi na zapadnim okraji baziny.
+330 DATA00OQ00,Jsi uprostred baziny. Z bahna kolem tebe unikaji bubliny a jedovate vypary.
+331 DATA00PR00,Jsi na vychodnim okraji baziny.
+332 DATA00QS00,Jsi v siroke chodbe. Zdi jsou vyzdobeny vybledlymi kresbami.
+333 DATAT0R000,Jsi v okrouhle mistnosti. Uprostred mistnosti stoji kamenny oltar. Malym otvorem ve strope dopada paprsek svetla na malou prohluben v oltari.
+334 DATAVS0000,Jsi v mistnosti vyzdobene sochami kralu a jinych velmozu. Ve vychodni zdi je mohutna kamenna brana.
+335 DATA00T0W0,Jsi v hlavni mistnosti chramu. Nahoru vedou kratke schody k oltari. V zapadni zdi je mohutna kamenna brana.
+336 DATA0TX000,"Jsi v male kobce, ktera patrne drive slouzila jako hladomorna. V zapadni zdi je male okno s rezavymi zbytky mrizi."
+337 DATA00000U,Stojis na kamennem oltari.
+338 DATA000V03,"Drzis se skaly pod malym okenkem. 15 metru pod sebou vidis mytinu, na ktere jsi zapocal svou cestu!"
+339 DATA000000,Jsi v dulni lokomotive.
+400 FORI=LEN(X$)TO1STEP-1:IFMID$(X$,I,1)=","THENX$=LEFT$(X$,I-1)+" a"+RIGHT$(X$,LEN(X$)-I):RETURN
+420 NEXTI:RETURN
+500 DATA"","",199,""
+501 DATAkanystr s benzinem,"",14,"Je na nem napsano: Shell Oil - horlavina 1.tridy."
+502 DATAsirku,"",16,Neni na ni nic zvlastniho.
+503 DATAdopis,"",1,"VIZ O$"
+504 DATAvetev,uschlou,2,Neni na ni nic zvlastniho.
+505 DATAvetev,horici,99,Vetev hori.
+506 DATAbednu,"",4,Neni na ni nic zvlastniho.
+507 DATAlano,"",98,Je dlouhe asi 20 metru a vypada zachovale.
+508 DATAmasku,plynovou,98,Neni na ni nic zvlastniho.
+509 DATAbackpack,"",8,Pripomina pusku pripojenou dratem k jakemusi batohu. Z hlavne vyzaruje svetelny paprsek.
+510 DATApast,"",10,"Kdyz jsi ji otevrel, uvidel jsi uvnitr drapak pripevneny na pruzine. Na stene pasti je zelene tlacitko."
+511 DATAducha,poletujiciho,13,Jako bys ho uz v nejake hre videl...
+512 DATAfiltr,dychaci,20,Neni na nem nic zvlastniho.
+513 DATAkohout na roure,"",9,Neni na nem nic zvlastniho.
+514 DATAropuchu,obrovskou,32,Vypada odporne.
+515 DATApaku ve zdi,drevenou,34,Pohybuje se ve zdi az prilis snadno.
+516 DATAdiamant,"",99,"Je prekrasny, s mnoha vybrousenymi plochami."
+517 DATAmasku slunecniho boha,zlatou,37,Je z ryziho zlata. Jeji cena je urcite nevycislitelna. Ted jenom abyses s ni ve zdravi dostal ven.
+518 DATAtruhlicku,bronzovou,99,Uvnitr neco chrasti.
+519 DATApedal v podlaze,"",39,Neni na nem nic zvlastniho.
+520 DATAlano privazane k tramu,"",99,Neni na nem nic zvlastniho.
+521 DATAtlacitko,zelene,10,Neni na nem nic zvlastniho.
+1000 GOSUB1010:GOTO1500
+1010 PRINT:RESTORE300:FORII=1TOX:READM$,X$:NEXTII:READM$,X$:IF(X=5 OR X=11) AND P$(31)="1"THENX$=X$+"otevrene dvere."
+1020 IF(X=5 OR X=11) AND P$(31)="0"THENX$=X$+"zavrene dvere."
+1030 IFX=9 AND P$(32)="0"THENX$=X$+"zavrene dvere."
+1040 IFX=9 AND P$(32)="1"THENX$=X$+"otevrene dvere."
+1045 IFX=7 AND P$(34)="0"THENX$=X$+" Zem je pokryta spalenymi hady."
+1050 S=0:FORI=1TO20:IFASC(P$(I))<>XTHEN1100
+1060 S=S+1:IFS=1THENX$=X$+" Vidis"
+1070 IFS>1THENX$=X$+","
+1080 RESTORE500:FORII=1TOI:READA$,A$,A,A$:NEXTII:READA$,B$:HE$="":IFB$<>""THENHE$=" "
+1090 X$=X$+" "+HE$+A$
+1100 NEXTI:IFS>1THENGOSUB400
+1102 IFS>0THENX$=X$+"."
+1110 GOSUB10:X$="":IFX=5 AND P$(31)="0"THENM$=LEFT$(M$,1)+"0"+RIGHT$(M$,4)
+1130 IFX=11 AND P$(31)="0"THENM$="0"+RIGHT$(M$,5)
+1140 IFX=9 AND P$(32)="0"THENM$=LEFT$(M$,5)+"0"
+1150 IFX=13 AND ASC(P$(11))=13THENM$=LEFT$(M$,1)+"0"+RIGHT$(M$,4)
+1160 IFX=34 AND P$(33)>="("THENM$=LEFT$(M$,3)+"U"+RIGHT$(M$,2)
+1170 IFX=35 AND P$(18)<>"%"THENM$=LEFT$(M$,2)+"0"+RIGHT$(M$,3)
+1180 RESTORE1200:IFM$="000000"THEN1499
+1200 DATA"na sever","na jih","na zapad","na vychod","nahoru","dolu"
+1210 S=0:FORI=1TO6:READA$:IFMID$(M$,I,1)="0"THEN1300
+1230 S=S+1:IFS=1THENX$=X$+"Muzes jit"
+1240 IFS>1THENX$=X$+","
+1250 X$=X$+" "+A$
+1300 NEXTI
+1310 IFS>1THENGOSUB400
+1315 IFS>0THENX$=X$+".":GOSUB10
+1499 RETURN
+1500 P$(33)=" ":IFX=7 AND P$(34)="1"THENX$="JE TU SPOUSTA JEDOVATYCH HADU A JEDEN Z NICH TE USTKL!!":GOSUB10:GOTO9500
+1520 IFX=27 AND (P$(8)<>"Z" OR P$(12)<>"Z")THENX$="UDUSIL SES!!":GOSUB10:GOTO9500
+1530 IFX=30 AND (NS>1 OR P$(10)<>"Z")THENX$="ZAPADL JSI DO BAZINY!!":GOSUB10:GOTO9500
+1540 IFX=15THENX$="PAVOUCI TI ZA ZIVA VYRVALI SRDCE Z TELA!":GOSUB10:GOTO9500
+1550 P$(50+X)="1"
+2000 IFP$(33)<"Z" AND X=34THENP$(33)=CHR$(ASC(P$(33))+1)
+2010 IFX=34 AND P$(33)>="("THENM$=LEFT$(M$,3)+"U"+RIGHT$(M$,1):X$="BRANA JE OTEVRENA!!":GOSUB10
+2100 INPUT"Prikaz: ";Z$
+2110 IFZ$="buline stuj"THEN END
+2502 MUSIC"T5V15O3G1A1#A1A1+C1#A1A1G1";"V15O2T5G1A1#A1A1+C1#A1A1G1":E$="":F$="":FORI=1TOLEN(Z$)
+2510 IFMID$(Z$,I,1)=" "THENE$=LEFT$(Z$,I-1):F$=RIGHT$(Z$,LEN(Z$)-I):GOTO2600
+2520 NEXTI:E$=Z$
+2600 RESTORE210:E=0:IFE$=""THENX$="Nerozumim!":GOSUB10:GOTO2000
+2610 E=E+1:READZ$:IFZ$=" STOP"THENE$="":GOTO2600
+2615 IFLEN(Z$)<LEN(E$)THEN2610
+2620 IFLEFT$(Z$,LEN(E$))<>E$THEN2610
+2640 F=0:IFF$=""ORF$=" "THEN3500
+2660 FORF=1TO21:RESTORE500:FORII=1TOF:READA$,A$,A,A$:NEXTII:READA$,B$:HE$="":IFB$<>""THENHE$=" "
+2670 B$=B$+HE$+A$:A=LEN(F$):IFA>LEN(B$)THEN3000
+2680 IFLEFT$(B$,A)=F$THENZ=1:GOTO3100
+2800 IFLEN(A$)<ATHEN3000
+2810 IFLEFT$(A$,A)=F$THENZ=2:GOTO3100
+3000 NEXTF:F=0:GOTO3500
+3100 IFF=4 AND Z=2 AND P$(4)<>"Z" AND P$(4)<>CHR$(X)THENF=5
+3110 IFF=8 AND Z=2 AND P$(8)<>"Z" AND P$(8)<>CHR$(X) AND NOT (P$(8)=CHR$(98) AND (P$(6)="Z" OR P$(6)=CHR$(X)))THENF=17
+3115 IFF=7 AND Z=2 AND P$(7)<>"Z" AND P$(7)<>CHR$(X) AND NOT (P$(7)=CHR$(98) AND (P$(6)="Z" OR P$(6)=CHR$(X)))THENF=20
+3120 IFF>0THENRESTORE500:FORII=1TOF:READA$,A$,A,A$:NEXTII:READA$,B$:HE$="":GOTO3130
+3125 GOTO3500
+3130 IFB$<>""THENHE$=" "
+3140 F$=B$+HE$+A$
+3500 PRINT
+3510 ONEGOTO3600,3600,3600,3600,3600,3600,3700,3700,3800,3900,3900,4000,4100,4150,4200,4200,4350,4350,4350,4400,4400,4400,4450,4500,4500,4600,4050,4650,4700,4700,4800,4900,5000,5100,5100,7000
+3600 RESTORE1200:FORI=1TOE:READK$:NEXTI
+3610 IFMID$(M$,E,1)="0"THENX$="Nemuzes jit "+K$+"!":GOSUB10:GOTO2000
+3620 PRINT"O.K.":X$="Jdes "+K$+"...":GOSUB10
+3630 IFX=2 AND E=6 AND P$(20)<>CHR$(2) THENX$="ZABIL SES PADEM Z VYSKY!!!":GOSUB10:GOTO9500
+3640 X=ASC(MID$(M$,E,1))-50:IFX=1 AND E=6 AND P$(6)=CHR$(1)THENX$="Uklouzl jsi na hladke skale, ale nastesti jsi spadl do bedny vylozene polystyrenem.":GOSUB10:IFP$(17)="Z"THEN9800
+3650 IFX=1 AND E=6 ANDP$(6)<>CHR$(1)THENX$="Uklouzl jsi na hladke skale a ZABIL SES PADEM Z VYSKY!!":GOSUB10:GOTO9500
+3655 IFX=10 AND P$(39)="1"THENX$="Vesel jsi do vody a UTOPIL SES!":GOSUB10:GOTO9500
+3660 GOTO1000
+3700 IFF=0THENX$="Neni mi jasne, co chces vlastne vzit.":GOSUB10:GOTO2000
+3701 IFP$(F)="Z"THENX$="Vzdyt mas "+F$+" u sebe!!":GOSUB10:GOTO2000
+3710 IFP$(F)=CHR$(X) OR (P$(F)=CHR$(98) AND (P$(6)="Z" OR P$(6)=CHR$(X)))THEN GOTO3730
+3720 X$="Neni tady!!":GOSUB10:GOTO2000
+3730 IFF=11THENX$="JAKMILE SES HO DOTKL....AARGH!":GOSUB10:GOTO9500
+3740 IFF=13THENX$="To nemuzes, je pripevnen k roure.":GOSUB10:GOTO2000
+3750 IFF=14 OR F=15 OR F=19 OR F=21THENX$="To je nad tve sily.":GOSUB10:GOTO2000
+3760 PRINT"O.K.":X$="Vzal jsi "+F$+".":GOSUB10
+3770 IFF=20THENP$(20)=CHR$(99):F=7
+3780 P$(F)="Z":NS=NS+1:GOTO2000
+3800 IFF=0THENX$="Neni mi jasne, co chces vlastne polozit.":GOSUB10:GOTO2000
+3810 IFP$(F)<>"Z"THENX$="Nemuzes polozit neco, co u sebe nemas.":GOSUB10:GOTO2000
+3815 PRINT"O.K.":X$="Polozil jsi "+F$+".":GOSUB10
+3820 Z=0:IFX=3THENX$="Predmet sklouzl doprostred mistnosti a zmizel v dire.":GOSUB10:P$(F)=CHR$(99):Z=1:IFF=5 AND P$(1)=CHR$(99) AND P$(34)="1"THENX$="Podlaha se otrasla vybuchem.":GOSUB10:P$(34)="0"
+3830 IFX<>3 AND F=5THENX$="Vetev zhasla.":GOSUB10:P$(5)=CHR$(99):F=4
+3840 NS=NS-1:IFZ=0THENP$(F)=CHR$(X)
+3850 GOTO2000
+3900 IFF=0THENX$="Neni mi jasne, co chces vlastne prozkoumat.":GOSUB10:GOTO2000
+3910 IFP$(F)<>CHR$(X) AND P$(F)<>"Z" AND NOT (P$(F)=CHR$(98) AND (P$(6)="Z" OR P$(6)=CHR$(X)))THENX$="Neni tady.":GOSUB10:GOTO2000
+3920 RESTORE500:FORII=1TOF:READA$,A$,A,A$:NEXTII:READA$,A$,A,A$:PRINT"O.K."
+3930 IFF=3THENPRINT"Cituji:":PRINTO0$;O1$;O2$;O3$;O4$:GOTO2000
+3950 IFF<>6THENX$=A$:GOSUB10:GOTO2000
+3955 X$="Bedna je vylozena polystyrenem.":IFP$(7)<>CHR$(98) AND P$(8)<>CHR$(98)THEN3990
+3960 IFP$(7)=CHR$(98)THENX$=X$+" Uvnitr je lano":IFP$(8)=CHR$(98)THENX$=X$+" a plynova maska.":GOTO3990
+3970 IFP$(7)=CHR$(98)THENX$=X$+".":GOTO3990
+3980 X$=X$+" Uvnitr je plynova maska."
+3990 GOSUB10:GOTO2000
+4000 PRINT"O.K.":GOSUB1010:GOTO2000
+4050 IFF=0THENX$="Neni mi jasne, co chces vlastne otocit.":GOSUB10:GOTO2000
+4060 IFF<>13THENX$="To bohuzel nemuzes.":GOSUB10:GOTO2000
+4070 PRINT"O.K.":PRINT"Otocil jsi kohout.":IFP$(35)="0"THENX$="Nic se nestalo.":GOSUB10:GOTO2000
+4080 IFP$(32)="0"THENX$="Z roury zacala mohutnym proudem tryskat voda, ktera ve chvili naplnila celou mistnost. UTOPIL SES!!":GOSUB10:GOTO9500
+4090 X$="Z roury zacala mohutnym proudem tryskat voda, ktera odtekala do diry v zemi. Po nekolika minutach prestala voda tect.":P$(35)="0":P$(39)="1":GOSUB10:GOTO2000
+4100 IFF=0THENF=97
+4102 IF(P$(10)<>"Z" AND P$(10)<>CHR$(X)) OR F<>10THEN4120
+4105 IFP$(11)<>CHR$(97)THENPRINT"O.K.":PRINT"Otevrel jsi past.":GOTO2000
+4110 PRINT"O.K.":PRINT"Otevrel jsi past.":X$="Duch vyletel ven a s nervy drasajicim revem zmizel ve strope.":GOSUB10:P$(11)=CHR$(99):IFX<>32 OR P$(14)<>" "THENGOTO2000
+4115 X$="Ropucha se vydesila a utekla smerem na zapad. Na miste kde sedela zustal prekrasny diamant!":GOSUB10:P$(14)=CHR$(99):P$(16)=" ":GOTO2000
+4120 IFF=18 AND (P$(F)="Z" OR P$(F)=CHR$(X))THENX$="Nemuzes, truhlicka je zamcena a ty nemas klic.":GOSUB10:GOTO2000
+4125 Z=0:IFX=5 OR X=11THENZ=31
+4130 IFX=9THENZ=32
+4140 IFZ=0THENX$="To bohuzel nemuzes.":GOSUB10:GOTO2000
+4142 IFP$(Z)="1"THENZ=0:GOTO4140
+4145 P$(Z)="1":PRINT"O.K.":PRINT"Otevrel jsi dvere.":IFP$(35)="0" OR Z<>5 THENGOSUB1010:GOTO2000
+4147 X$="ZA DVERMI BYLA OBROVSKA MASA VODY, KTERA VYTRYSKLA VEN A SRAZILA TE Z LANA!":GOSUB10:GOTO9500
+4150 IFF=10 AND (P$(10)="Z" OR P$(10)=CHR$(X))THENPRINT"O.K.":PRINT"Zavrel jsi past.":GOTO2000
+4160 Z=0:IFX=5 OR X=11 THENZ=31
+4170 IFX=9THENZ=32
+4180 IFZ=0THENX$="To bohuzel nemuzes.":GOSUB10:GOTO2000
+4185 IFP$(Z)="0"THENZ=0:GOTO4180
+4190 PRINT"O.K.":PRINT"Zavrel jsi dvere.":P$(Z)="0":GOSUB1010:GOTO2000
+4200 IFF=0THENX$="Neni mi jasne, co chces vlastne stisknout.":GOSUB10:GOTO2000
+4210 IFX=39 AND F=19THEN4300
+4220 IFP$(10)<>"Z" AND P$(10)<>CHR$(X)THENX$="To bohuzel nemuzes.":GOSUB10:GOTO2000
+4230 PRINT"O.K.":PRINT"Stiskl jsi zelene tlacitko.":IFP$(11)=CHR$(97)THENPRINT"Nic se nestalo.":GOTO2000
+4240 X$="Past se otevrela a vyjel z ni drapak":IFX<>13 OR (X=13 AND P$(11)<>CHR$(13))THENX$=X$+", ktery opet zajel zpet a past se zavrela.":GOSUB10:GOTO2000
+4250 IFP$(9)<>"Z" AND P$(9)<>CHR$(13)THENX$=X$+". Duch ale v posledni chvili uhnul.":GOSUB10:GOTO2000
+4260 X$=X$+". Duch se pokusil uhnout, ale byl zadrzen paprskem z backpacku a chycen drapakem, ktery zajel i s duchem zpet do pasti. Past se zavrela.":GOSUB10:P$(11)=CHR$(97):GOSUB1010:GOTO2000
+4300 PRINT"O.K.":PRINT"Stiskl jsi pedal.":X$="Lokomotiva se rozjela a po chvili se zastavila.":GOSUB10
+4310 IFP$(36)="0"THENP$(36)="1":GOTO2000
+4320 P$(36)="0":GOTO2000
+4350 IFX<>14 AND X<>16THENX$="Neni mi jasne, do ceho chces vlastne nastoupit.":GOSUB10:GOTO2000
+4360 PRINT"O.K.":PRINT"Nastoupil jsi do lokomotivy.":X=39:GOSUB1010:GOTO2000
+4400 IFX<>39THENX$="Kdyz nejsi UVNITR neceho, nemuzes prece chtit vystoupit.":GOSUB10:GOTO2000
+4410 PRINT"O.K.":PRINT"Vystoupil jsi z lokomotivy.":X=14+2*VAL(P$(36)):GOTO1000
+4450 PRINT"O.K.":IFNS<=0THENPRINT"Nemas s sebou nic.":GOTO2000
+4460 Z=0:FORI=1TO20:IFP$(I)<>"Z"THEN4490
+4465 Z=Z+1:IFZ=1THENX$="Mas s sebou"
+4470 IFZ>1THENX$=X$+","
+4480 RESTORE500:FORII=1TOI:READA$,A$,A,A$:NEXTII:READB$,A$:HE$="":IFA$<>""THENHE$=" "
+4485 X$=X$+" "+A$+HE$+B$
+4490 NEXTI:X$=X$+".":IFNS>1THENGOSUB400
+4495 GOSUB10:GOTO2000
+4500 IFF=0THENX$="Neni mi jasne, co chces vlastne privazat.":GOSUB10:GOTO2000
+4510 IF(P$(7)<>"Z" AND P$(7)<>CHR$(X)) OR X<>2 OR F<>7THENPRINT"To bohuzel nemuzes.":GOTO2000
+4520 PRINT"O.K.":PRINT"Privazal jsi lano k tramu.":NS=NS-1:P$(7)=CHR$(99):P$(20)=CHR$(2):GOTO2000
+4600 IFX<>2 OR P$(20)<>CHR$(2)THENPRINT"To bohuzel nemuzes.":GOTO2000
+4610 PRINT"O.K.":PRINT"Odvazal jsi lano od tramu.":P$(20)=CHR$(99):P$(7)=CHR$(2):GOTO2000
+4650 IFF=0THENX$="Neni mi jasne, co chces vlastne zapalit.":GOSUB10:GOTO2000
+4660 IFF=2 AND (P$(F)="Z" OR P$(F)=CHR$(X))THENNS=NS-1:PRINT"O.K.":X$="Sirka vzplanula a po chvili zhasla.":GOSUB10:P$(2)=CHR$(99):GOTO2000
+4665 IFP$(2)<>"Z" AND P$(2)<>CHR$(X)THENX$="Nemuzes. Nemas sirky.":GOSUB10:GOTO2000
+4670 IFF<>4 OR (P$(F)<>"Z" AND P$(F)<>CHR$(X))THENX$="To bohuzel nemuzes.":GOSUB10:GOTO2000
+4675 IFP$(4)<>"Z"THENNS=NS+1
+4680 P$(2)=CHR$(99):NS=NS-1:PRINT"O.K.":PRINT"Zapalil jsi vetev sirkou.":P$(4)=CHR$(99):P$(5)="Z":GOTO2000
+4700 IFF=0THENX$="Neni mi jasne, co chces vlozit.":GOSUB10:GOTO2000
+4710 IFF<>16 OR X<>33 OR (P$(16)<>"Z" AND P$(16)<>CHR$(X))THENX$="To bohuzel nemuzes.":GOSUB10:GOTO2000
+4720 PRINT"O.K.":X$="Vlozil jsi diamant do prohlubne v oltari.":GOSUB10:P$(16)=CHR$(33)
+4730 IFP$(18)<>CHR$(99)THENPRINT"Nic se nestalo.":GOTO2000
+4740 X$="Jak slunecni paprsek dopadl na diamant, neco cvaklo a ze stropu vypadla mala truhlicka!!":GOSUB10:P$(18)=CHR$(33):GOTO2000
+4800 ZZ=1:GOSUB9205:PRINT:GOTO2000
+4900 PRINT"Chces opravdu nahrat pozici z MGF?"
+4910 GETA$:IFA$=""THEN4910
+4920 IFA$="n"THEN2000
+4930 PRINT"Priprav MGF a stiskni PLAY."
+4940 ROPEN#1,"CMT:JONES DATA"
+4950 FORII=0TO99:INPUT#1,A:P$(II)=CHR$(A):NEXTII
+4955 CLOSE#1
+4960 X=ASC(P$(98)):NS=ASC(P$(99))
+4970 PRINT"Pozice nahrana!":GOSUB1010:GOTO2000
+5000 PRINT:PRINT"Jsem pripraven nahrat tvou pozici       na magnetofon. Priprav si kazetu!       Stiskni RECORD.PLAY !"
+5005 P$(98)=CHR$(X):P$(99)=CHR$(NS)
+5010 WOPEN#1,"CMT:JONES DATA"
+5020 FORII=0TO99:A=ASC(P$(II)):PRINT#1,A:NEXTII
+5030 CLOSE#1
+5040 PRINT"Pozice ulozena.":GOTO2000
+5100 PRINT:PRINT"CHCES OPRAVDU SKONCIT (A/N)?"
+5110 GETA$:IFA$=""THEN5110
+5120 IFA$="a"THEN9510
+5130 IFA$="n"THEN2000
+5140 GOTO5110
+6000 M1$="E3E3F3G3G3G3+C3+C3+C3+C3+C3+C3D3D3E3F3F3F3F3F3F3F3F3F3G3G3A3B3B3B3"
+6010 M2$="+F3+F3+F3+F3+F3+F3A3A3B3+C3+C3+C3+D3+D3+D3+E3+E3+E3"
+6020 M3$="E3E3F3G3G3G3+C3+C3+C3+C3+C3+C3+D3+D3+E3"
+6030 M4$="+F3+F3+F3+F3+F3+F3+F3+F3+F3G3G3G3+E3+E3+E3+D3+D3G3+E3+E3+E3"
+6040 M5$="+D3+D3G3+E3+E3+E3+D3+D3B3+E3+E3+D3+F3+F3+F3"
+6045 M6$="+E3+E3+E3+C3+C3+C3+C3+C3+C3+C3+C3+C3"
+6050 MUSICINIT:TEMPO7:MUSICM1$;"O3"+M1$;"O4"+M1$,M2$;"O3"+M2$;"O4"+M2$,M3$;"O3"+M3$;"O4"+M3$,M4$;"O3"+M4$;"O4"+M4$,M5$;"O3"+M5$;"O4"+M5$,M6$;"O3"+M6$;"O4"+M6$
+6060 RETURN
+7000 RESTORE210
+7010 READA$:IFA$=" STOP"THENPRINT:PRINT:GOTO2000
+7020 PRINTA$,:GOTO7010
+9000 CLS:PAL0,0:PAL1,7:COLOR 1:PAL2,5:SYMBOL[2]40,20,"Indiana Jones",2,3:SYMBOL[2]135,50,"a",2,3:SYMBOL[2]57,80,"Chram Zkazy",2,3
+9010 O0$="'Drahy Indiana Jonesi! Za tu dobu, co jsi byl v Egypte doslo k nekolika zajimavym udalostem: V Amazonskem pralese objevili pri tezbe uhli rozsahly podzemni komplex. "
+9020 O1$="Beloq se to samozrejme hned rozjel prozkoumat, ale potom byl rad, ze vyvazl se zdravou kuzi! Podarilo se mi z neho vytahnout, ze v tom jsou nadprirozene sily. "
+9030 O2$="Potom se tam pokouseli o stesti nejaci tri chlapici, kteri si rikaji GHOSTBUSTERS - Vyhaneci Duchu. V New Yorku meli dobre vysledky (Vzpomen si na tu aferu s klasterem ZUUL), "
+9040 O3$="ale tady jim to nevyslo. Nechali tam nejake svoje vybaveni, ktere by se ti mohlo hodit. Ano Indy, mel by ses taky pokusit. Ze svitku v me sbirce jsem zjistil, ze se tomu "
+9050 O4$="komplexu kdysi rikalo CHRAM ZKAZY a ze je v nem ukryta zlata maska slunecniho boha!! Mnoho stesti ti preje            Abner.'"
+9130 DIMP$(99):FORII=0TO99:P$(II)=" ":NEXTII:RESTORE501:FORI=1TO20:READA$,A$,A,A$:P$(I)=CHR$(A):NEXT
+9140 FORI=31TO36:P$(I)="0":NEXT:P$(34)="1":P$(35)="1"
+9155 CURSOR3,15:PRINT"Spectrum version by  FUXOFT 1985":PRINT:PRINT" For SHARP MZ-800 adapted by ScS 1987"
+9160 PRINT:PRINT"Textova hra v cestine pro zacatecniky."
+9180 GOSUB6000:ZZ=0:CLS
+9205 PRINT" Prikazy se zadavaji ve forme",,"SLOVESO - PODSTATNE JMENO, nebo jen","SLOVESO."
+9210 PRINT:PRINT" Pro pohyb pouzivejte prikazy:":PRINT"  s,j,z,v,n,d   (sever,jih,zapad,vychod","   nahoru,dolu)."
+9220 PRINT:PRINT" Specialni prikazy:":PRINT"  i -vypise predmety,ktere mate u sebe.":PRINT"  r -zopakuje popis mistnosti,ve ktere":PRINT"     se prave nachazite."
+9230 PRINT"  save -nahraje vasi pozici na MGF.":PRINT"  load -nahraje pozici z MGF."
+9240 PRINT:PRINT" Nevite-li si rady, pouzijte prikaz     'pomoc' nebo 'prozkoumej'.":IFZZ<>0THENRETURN
+9250 CURSOR10,18:PRINT"MNOHO STESTI!!"
+9255 PRINT:PAL3,15:PRINT[3]" Bud tak laskav a pred zapocetim hry    stiskni soucasne SHIFT a ALPHA (pro     uzamceni SHIFTu), jinak nebudu schopen  ti rozumet.":COLOR1
+9262 GETA$:IFA$=""THEN9262
+9270 NS=0:X=1:CLS:GOTO1000
+9500 'UKONCENI
+9510 MUSIC"O1E5D5C7";"O1F5E5D7";"O1G5F5E7":PRINT:FORI=0TO7:PAL3,I:CURSORCSRH,CSRV-1:PRINT[3]"JSI MRTEV!!":WAIT100:NEXTI:PRINT
+9550 PRINT:PRINT"Je mi lito, ale toto se ti nepodarilo."
+9580 S=0:FORI=51TO90:IFP$(I)="1"THENS=S+1
+9590 NEXTI
+9600 S=S/38*95:S=INT(S*10+0.500000)/10
+9605 IFP$(17)<>CHR$(37)THENS=S+2.500000
+9610 PRINT"Zvladl jsi ";S;"% teto hry."
+9620 GOSUB6000:GOTO9000
+9800 CLS:PRINT"GRATULUJI!!     PODARILO SE TI ZISKAT    ZLATOU MASKU A UNIKNOUT Z CHRAMU ZKAZY.":GOSUB6000:GOTO9000
+
