@@ -205,7 +205,9 @@ OTHER = {
     0x13: '⇒',    # \u21d2 RIGHTWARDS DOUBLE ARROW
     0x14: '⇐',    # \u21d0 LEFTWARDS DOUBLE ARROW
     0x15: 'ℍ',    # \u210d DOUBLE-STRUCK CAPITAL H
+                  # \U0001f177
     0x16: 'ℂ',    # \u2102 DOUBLE-STRUCK CAPITAL C
+                  # \U0001f172
     0x5e: '↑',    # \u2191 UPWARDS ARROW
                   #        see also power operator TOKENS[0xfd]
                   #        see also OTHER[0x8b]
@@ -213,10 +215,12 @@ OTHER = {
     0x63: '⛹',    # \u26f9 PERSON WITH BALL
     0x67: '☻',    # \u263b BLACK SMILING FACE
     0x68: '☺',    # \u263a WHITE SMILING FACE
-    # 0x69: '🐍',    # \U0001f40d
+    # 0x69: '🐍',    # \U0001f40d code points above 0xffff
+    #                             cannot be used in tkinter
     0x6e: '⟛',    # \u27db LEFT AND RIGHT TACK
     0x70: '▒',    # \u2592 MEDIUM SHADE
     0x7b: '°',    # \u00b0 DEGREE SIGN
+    0x7c: '░',    # \u2591 LIGHT SHADE
     0x7d: '⫽',    # \u2afd DOUBLE SOLIDUS OPERATOR
                   #        see also integer division operator TOKENS[0xf9]
     0x7f: '⍗',    # \u2357 APL FUNCTIONAL SYMBOL QUAD DOWNWARDS ARROW
@@ -229,9 +233,11 @@ OTHER = {
     0x8e: '⎠',    # \u23a0 RIGHT PARENTHESIS LOWER HOOK
     0x90: '_',    # \u005f LOW LINE
     0x91: '╬',    # \u256c BOX DRAWINGS DOUBLE VERTICAL AND HORIZONTAL
+                  # previously '⌗' \u2317 VIEWDATA SQUARE
     0x92: 'e',    # \u0065 LATIN SMALL LETTER E
     0x93: '`',    # \u0060 GRAVE ACCENT
     0x94: '~',    # \u007e TILDE
+    0x95: '▩',    # \u25a9 SQUARE WITH DIAGONAL CROSSHATCH FILL
     0x96: 't',    # \u0074 LATIN SMALL LETTER T
     0x97: 'g',    # \u0067 LATIN SMALL LETTER G
     0x98: 'h',    # \u0068 LATIN SMALL LETTER H
@@ -271,18 +277,24 @@ OTHER = {
     0xc0: '|',    # \u007c VERTICAL LINE
     0xc1: '▐',    # \u2590 RIGHT HALF BLOCK
     0xc2: '▄',    # \u2584 LOWER HALF BLOCK
+    0xc3: '▔',    # \u2594 UPPER ONE EIGHTH BLOCK
     0xc4: '▁',    # \u2581 LOWER ONE EIGHTH BLOCK
+    0xc5: '▏',    # \u258f LEFT ONE EIGHTH BLOCK
     0xc6: '→',    # \u2192 RIGHTWARDS ARROW
+    0xc7: '▕',    # \u2595 RIGHT ONE EIGHTH BLOCK
     0xc8: '█',    # \u2588 FULL BLOCK
     0xc9: '◤',    # \u25e4 BLACK UPPER LEFT TRIANGLE
     0xcb: '├',    # \u251c BOX DRAWINGS LIGHT VERTICAL AND RIGHT
     0xcc: '⌼',    # \u233c APL FUNCTIONAL SYMBOL QUAD CIRCLE
+                  # or \u25d9
     0xcd: '└',    # \u2514 BOX DRAWINGS LIGHT UP AND RIGHT
     0xce: '┐',    # \u2510 BOX DRAWINGS LIGHT DOWN AND LEFT
+    0xcf: '▂',    # \u2582 LOWER ONE QUARTER BLOCK
     0xd0: '┌',    # \u250c BOX DRAWINGS LIGHT DOWN AND RIGHT
     0xd1: '┴',    # \u2534 BOX DRAWINGS LIGHT UP AND HORIZONTAL
     0xd2: '┬',    # \u252c BOX DRAWINGS LIGHT DOWN AND HORIZONTAL
     0xd3: '┤',    # \u2524 BOX DRAWINGS LIGHT VERTICAL AND LEFT
+    0xd4: '▎',    # \u258e LEFT ONE QUARTER BLOCK
     0xd5: '▌',    # \u258c LEFT HALF BLOCK
     0xd8: '▀',    # \u2580 UPPER HALF BLOCK
     0xd9: '▃',    # \u2583 LOWER THREE EIGHTHS BLOCK
