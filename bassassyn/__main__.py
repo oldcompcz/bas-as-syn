@@ -136,15 +136,17 @@ class TkApp(tk.Tk):
 
             if file_data.startswith(b'MZS\x00') and len(file_data) == 98404:
                 # MZS file
-                params = [(4, 0x6bcf), (4, 0x9f9e), (4, 0xa3fa)]
+                data = file_data[4:]
+                starting_points = [0x6bcf, 0x9f9e, 0xa3fa]
+                utils.retrieve_keywords(data, self.basename)
             else:
                 # MZF file
-                params = [(128, 0)]
+                data = file_data[128:]
+                starting_points = [0]
 
-            for offset, start in params:
+            for start in starting_points:
                 try:
-                    self.lines = list(utils.grab_data(file_data,
-                                                      offset, start))
+                    self.lines = list(utils.grab_data(data, start))
                 except ValueError as err:
                     logging.info('{} Skipping start address {:#x}.'
                                  .format(err, start))

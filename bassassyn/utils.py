@@ -3,9 +3,9 @@ import io
 from bassassyn import constants
 
 
-def grab_data(file_data, offset, start):
+def grab_data(data, start):
     """Generate a sequence representing individual Basic lines."""
-    stream = io.BytesIO(file_data[offset:])
+    stream = io.BytesIO(data)
     stream.seek(start)
 
     # split to Basic lines based on line length tokens
@@ -209,3 +209,36 @@ def get_float_40bit(sequence, return_string=False):
 
     else:
         return result
+
+
+def retrieve_keywords(data, name):
+    titles = ['TOK_FF', 'TOK_FE', 'TOK']
+    # we assume that GOTO is the first keyword (b'O' + 0x80 = 0xcf)
+    i = data.index(b'GOT\xcf')
+    adr = i
+    keyword = ''
+    output_file = open(name + '_KEYWORDS.py', 'w')
+    print('{} = {{'.format(titles.pop()), file=output_file)
+    token = 0x80
+
+    while True:
+        n = data[i]
+        if n == 0xff:
+            i += 1
+            if titles:
+                print('}}\n{} = {{'.format(titles.pop()), file=output_file)
+                token = 0x80
+            else:
+                break
+        else:
+            flag, letter = n & 0x80, chr(n & 0x7f)
+            keyword += letter
+            i += 1
+            if flag:
+                if letter != '\x00':
+                    print('    {:#x}: {!r},    # {:#x}'
+                          .format(token, keyword, adr), file=output_file)
+                keyword = ''
+                token += 1
+                adr = i
+    print('}', file=output_file)
