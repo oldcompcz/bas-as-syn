@@ -33,8 +33,13 @@ def grab_data(data, start):
         yield line_info
 
 
-def text_repr(data, adr_to_num, token_mode, token_0c_mode):
+def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
     """Generate a sequence representing elements of a Basic line."""
+    if basic == '700':
+        tokens, prefixed_tokens = constants.TOKENS_700, constants.PREFIXED_700
+    else:
+        tokens, prefixed_tokens = constants.TOKENS_800, constants.PREFIXED_800
+
     stream = io.BytesIO(data)
     inside_quotes = False
     inside_comment = False
@@ -131,10 +136,10 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode):
             elif 0x20 <= n <= 0x5d:
                 yield chr(n), 'identifier'
 
-            elif n in constants.TOKENS:
+            elif n in tokens:
                 tag = 'operator' if 234 <= n <= 253 else 'keyword'
                 if token_mode == 'keywords':
-                    yield constants.TOKENS[n], tag
+                    yield tokens[n], tag
                 else:
                     f_string = '[{:X}]' if token_mode == 'tokens_hex' else '[{}]'
                     yield f_string.format(n), tag
@@ -148,7 +153,7 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode):
             # FE or FF prefix
             elif n in (0xfe, 0xff):
                 if token_mode == 'keywords':
-                    yield constants.PREFIXED[n][stream.read(1)[0]], 'keyword'
+                    yield prefixed_tokens[n][stream.read(1)[0]], 'keyword'
                 else:
                     yield '[', 'keyword'
                     yield '{:X}'.format(n), 'comment'

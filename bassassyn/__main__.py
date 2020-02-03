@@ -217,8 +217,9 @@ class TkApp(tk.Tk):
             else:
                 for chunk, tag in utils.text_repr(line['contents'],
                                                   self.adr_to_num,
-                                                  token_mode=self.token_mode.get(),
-                                                  token_0c_mode=self.token_0c_mode.get()):
+                                                  self.token_mode.get(),
+                                                  self.token_0c_mode.get(),
+                                                  self.basic.get()):
                     self.listing.insert('end', chunk, tag)
             self.listing.insert('end', '\n')
 
