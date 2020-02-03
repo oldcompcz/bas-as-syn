@@ -77,6 +77,17 @@ class TkApp(tk.Tk):
 
         menu.add('cascade', label='View', underline=0, menu=self.menu_view)
 
+        # Basic menu
+        self.menu_basic = tk.Menu(menu, tearoff=False)
+        self.menu_basic.add('radiobutton', label='1Z-013 (MZ-700 Basic)',
+                            underline=11, variable=self.basic, value='700',
+                            accelerator='Ctrl+7', command=self.display)
+        self.menu_basic.add('radiobutton', label='1Z-016 (MZ-800 Basic)',
+                            underline=11, variable=self.basic, value='800',
+                            accelerator='Ctrl+8', command=self.display)
+
+        menu.add('cascade', label='Basic', underline=0, menu=self.menu_basic)
+
         # Font menu
         self.menu_font = tk.Menu(menu, tearoff=False)
         self.menu_font.add('radiobutton', label='Small', underline=0,
