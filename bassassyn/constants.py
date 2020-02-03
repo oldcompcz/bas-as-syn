@@ -206,18 +206,18 @@ OTHER = {
     0x13: '⇒',    # \u21d2 RIGHTWARDS DOUBLE ARROW
     0x14: '⇐',    # \u21d0 LEFTWARDS DOUBLE ARROW
     0x15: 'ℍ',    # \u210d DOUBLE-STRUCK CAPITAL H
-                  # \U0001f177
+                  # 🅷 \U0001f177, Ⓗ \u24bd
     0x16: 'ℂ',    # \u2102 DOUBLE-STRUCK CAPITAL C
-                  # \U0001f172
+                  # 🅲 \U0001f172, Ⓒ \u24b8
     0x5e: '↑',    # \u2191 UPWARDS ARROW
                   #        see also power operator TOKENS[0xfd]
                   #        see also OTHER[0x8b]
     0x5f: '←',    # \u2190 LEFTWARDS ARROW
     0x63: '⛹',    # \u26f9 PERSON WITH BALL
+                  # 🧍 \U0001F9CD, 🚹 \U0001F6B9
     0x67: '☻',    # \u263b BLACK SMILING FACE
     0x68: '☺',    # \u263a WHITE SMILING FACE
-    # 0x69: '🐍',    # \U0001f40d code points above 0xffff
-    #                             cannot be used in tkinter
+    # 0x69: '🐍',    # \U0001f40d SNAKE
     0x6e: '⟛',    # \u27db LEFT AND RIGHT TACK
     0x70: '▒',    # \u2592 MEDIUM SHADE
     0x7b: '°',    # \u00b0 DEGREE SIGN
@@ -287,7 +287,7 @@ OTHER = {
     0xc9: '◤',    # \u25e4 BLACK UPPER LEFT TRIANGLE
     0xcb: '├',    # \u251c BOX DRAWINGS LIGHT VERTICAL AND RIGHT
     0xcc: '⌼',    # \u233c APL FUNCTIONAL SYMBOL QUAD CIRCLE
-                  # or \u25d9
+                  # ◙ \u25d9
     0xcd: '└',    # \u2514 BOX DRAWINGS LIGHT UP AND RIGHT
     0xce: '┐',    # \u2510 BOX DRAWINGS LIGHT DOWN AND LEFT
     0xcf: '▂',    # \u2582 LOWER ONE QUARTER BLOCK
