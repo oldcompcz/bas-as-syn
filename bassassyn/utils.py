@@ -18,12 +18,13 @@ def grab_data(data, start):
             break
 
         line_number = int.from_bytes(stream.read(2), 'little')
-        if line_length > 260:
-            raise ValueError('Line length > 260: line {}, length {}.'
-                             .format(line_number, line_length))
+        line_length -= 5
+        if line_length > 0xff:
+            raise ValueError(f'Line length > 255: line {line_number},'
+                             f' length {line_length}.')
 
         line_info = {'number': line_number,
-                     'contents': stream.read(line_length - 5),
+                     'contents': stream.read(line_length),
                      'adr': adr}
 
         # skip line-ending null-byte

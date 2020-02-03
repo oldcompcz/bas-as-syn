@@ -17,6 +17,8 @@ class TkApp(tk.Tk):
         self.open_dir = './samples/'
         self.save_dir = None
         self.basename = None
+        self.lines = None
+        self.adr_to_num = None
 
         self.token_mode = tk.StringVar()
         self.token_mode.set('keywords')
@@ -26,6 +28,7 @@ class TkApp(tk.Tk):
         self.raw_bytes = tk.BooleanVar()
         self.raw_bytes.set(False)
 
+        font.Font(name='TkMenuFont', exists=True)['size'] = 11
         self.font_size = tk.IntVar()
         self.font_size.set(14)
         self.set_font_size()
@@ -176,7 +179,7 @@ class TkApp(tk.Tk):
 
     def display(self):
         """Display content in the main text widget."""
-        if not hasattr(self, 'lines'):
+        if self.lines is None:
             return
 
         self.listing['state'] = 'normal'
