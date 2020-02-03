@@ -33,6 +33,9 @@ class TkApp(tk.Tk):
         self.font_size.set(14)
         self.set_font_size()
 
+        self.basic = tk.StringVar()
+        self.basic.set('700')
+
         # menu bar
         menu = tk.Menu(self)
 
@@ -140,7 +143,9 @@ class TkApp(tk.Tk):
             if file_data.startswith(b'MZS\x00') and len(file_data) == 98404:
                 # MZS file
                 data = file_data[4:]
-                starting_points = [0x6bcf, 0x9f9e, 0xa3fa]
+                starting_points = ([0x6bcf, 0xa3fa, 0x9f9e]
+                                   if self.basic.get() == '700'
+                                   else [0xa3fa, 0x9f9e, 0x6bcf])
                 utils.retrieve_keywords(data, self.basename)
             else:
                 # MZF file
@@ -154,6 +159,10 @@ class TkApp(tk.Tk):
                     logging.info('{} Skipping start address {:#x}.'
                                  .format(err, start))
                 else:
+                    if start in (0xa3fa, 0x9f9e):
+                        self.basic.set('800')
+                    elif start == 0x6bcf:
+                        self.basic.set('700')
                     self.wm_title(self.basename + ' - bassassyn')
                     self.adr_to_num = {line['adr']: line['number']
                                        for line in self.lines}
