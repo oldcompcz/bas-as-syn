@@ -17,6 +17,7 @@ COLORS = {
 }
 
 # MZ-1Z016 (800 Basic) tokens
+# https://original.sharpmz.org/mz-800/1z016ovv.htm
 
 TOKENS = {
     0x80: 'GOTO',
@@ -330,6 +331,7 @@ OTHER = {
 }
 
 # MZ-1Z013 (700 Basic) tokens
+# https://original.sharpmz.org/mz-700/basoverv.htm
 
 TOKENS_700 = {
     0x80: 'GOTO',
