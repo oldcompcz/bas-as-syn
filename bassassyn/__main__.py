@@ -114,6 +114,8 @@ class TkApp(tk.Tk):
         self.bind('<Control n>', lambda event: self.menu_view.invoke(4))
         self.bind('<Control a>', lambda event: self.menu_view.invoke(5))
         self.bind('<Control r>', lambda event: self.menu_view.invoke(7))
+        self.bind('<Control 7>', lambda event: self.menu_basic.invoke(0))
+        self.bind('<Control 8>', lambda event: self.menu_basic.invoke(1))
         self.bind('<Control F1>', lambda event: self.menu_font.invoke(0))
         self.bind('<Control F2>', lambda event: self.menu_font.invoke(1))
         self.bind('<Control F3>', lambda event: self.menu_font.invoke(2))
