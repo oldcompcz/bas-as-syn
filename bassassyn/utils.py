@@ -33,8 +33,11 @@ def grab_data(data, start):
         yield line_info
 
 
-def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
+def text_repr(data, adr_to_num=None,
+              token_mode='keywords', token_0c_mode='number', basic='700'):
     """Generate a sequence representing elements of a Basic line."""
+    if adr_to_num is None:
+        adr_to_num = {}
     if basic == '700':
         tokens, prefixed_tokens = constants.TOKENS_700, constants.PREFIXED_700
     else:
