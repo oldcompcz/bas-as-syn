@@ -156,31 +156,28 @@ class TkApp(tk.Tk):
             if file_data.startswith(b'MZS\x00') and len(file_data) == 98404:
                 # MZS file
                 data = file_data[4:]
-                starting_points = ([0x6bcf, 0xa3fa, 0x9f9e]
-                                   if self.basic.get() == '700'
-                                   else [0xa3fa, 0x9f9e, 0x6bcf])
+                prog_start = int.from_bytes(data[0x1070:0x1072], 'little')
+                if prog_start in (0xa3fa, 0x9f9e):
+                    self.basic.set('800')
+                else:
+                    prog_start = 0x6bcf
+                    self.basic.set('700')
                 utils.retrieve_keywords(data, self.basename)
             else:
                 # MZF file
                 data = file_data[128:]
-                starting_points = [0]
+                prog_start = 0
 
-            for start in starting_points:
-                try:
-                    self.lines = list(utils.grab_data(data, start))
-                except ValueError as err:
-                    logging.info(f'{err} Skipping start address {start:#x}.')
-                else:
-                    if start in (0xa3fa, 0x9f9e):
-                        self.basic.set('800')
-                    elif start == 0x6bcf:
-                        self.basic.set('700')
-                    self.wm_title(self.basename + ' - bassassyn')
-                    self.adr_to_num = {line['adr']: line['number']
-                                       for line in self.lines}
-                    self.display()
-                    self.listing.focus()
-                    break
+            try:
+                self.lines = list(utils.grab_data(data, prog_start))
+            except ValueError as err:
+                logging.info(f'{prog_start:#x=}: {err}')
+            else:
+                self.wm_title(self.basename + ' - bassassyn')
+                self.adr_to_num = {line['adr']: line['number']
+                                   for line in self.lines}
+                self.display()
+                self.listing.focus()
 
     def save_file(self, event=None):
         """Launch a 'Save As' dialog."""
