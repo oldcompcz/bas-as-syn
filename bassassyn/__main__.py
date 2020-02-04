@@ -1,4 +1,3 @@
-import logging
 import os
 import sys
 import tkinter as tk
@@ -131,8 +130,6 @@ class TkApp(tk.Tk):
         # if possible, open a file from a command line argument
         if sys.argv[1:] and os.path.isfile(sys.argv[1]):
             self.open_file(filename=sys.argv[1])
-        else:
-            logging.debug('No file passed as argument.')
 
     def open_file(self, event=None, filename=None):
         """Launch an 'Open' dialog. If valid data is detected, display
@@ -171,7 +168,7 @@ class TkApp(tk.Tk):
             try:
                 self.lines = list(utils.grab_data(data, prog_start))
             except ValueError as err:
-                logging.info(f'{prog_start:#x=}: {err}')
+                print(f'{prog_start=:#x}: {err}')
             else:
                 self.wm_title(self.basename + ' - bassassyn')
                 self.adr_to_num = {line['adr']: line['number']
@@ -232,7 +229,6 @@ class TkApp(tk.Tk):
 
 
 def main():
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
     app = TkApp()
     app.mainloop()
 
