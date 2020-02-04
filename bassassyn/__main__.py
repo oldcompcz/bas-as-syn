@@ -169,8 +169,7 @@ class TkApp(tk.Tk):
                 try:
                     self.lines = list(utils.grab_data(data, start))
                 except ValueError as err:
-                    logging.info('{} Skipping start address {:#x}.'
-                                 .format(err, start))
+                    logging.info(f'{err} Skipping start address {start:#x}.')
                 else:
                     if start in (0xa3fa, 0x9f9e):
                         self.basic.set('800')
@@ -188,10 +187,11 @@ class TkApp(tk.Tk):
         if not self.basename or not self.listing.get('1.0', 'end').strip():
             return
 
-        dialog = filedialog.SaveAs(self, initialdir=self.save_dir,
-                                   initialfile='{}.txt'.format(
-                                       os.path.splitext(self.basename)[0]),
-                                   filetypes=(('Text files', '*.txt'),))
+        dialog = filedialog.SaveAs(
+            self, initialdir=self.save_dir,
+            initialfile=f'{os.path.splitext(self.basename)[0]}.txt',
+            filetypes=(('Text files', '*.txt'),)
+        )
         filename = dialog.show()
 
         if filename:

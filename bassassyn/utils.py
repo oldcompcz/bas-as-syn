@@ -67,7 +67,7 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
                 yield constants.OTHER[n], tag
 
             else:
-                yield '[${:x}]'.format(n), 'special'
+                yield f'[${n:x}]', 'special'
 
         elif inside_comment:
             # double quote
@@ -88,7 +88,7 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
                 yield constants.OTHER[n], 'comment'
 
             else:
-                yield '[${:x}]'.format(n), 'special'
+                yield f'[${n:x}]', 'special'
 
         elif inside_data:
             # double quote
@@ -109,7 +109,7 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
                 yield constants.OTHER[n], 'data'
 
             else:
-                yield '[${:x}]'.format(n), 'special'
+                yield f'[${n:x}]', 'special'
 
         else:
             # double quote
@@ -141,8 +141,8 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
                 if token_mode == 'keywords':
                     yield tokens[n], tag
                 else:
-                    f_string = '[{:X}]' if token_mode == 'tokens_hex' else '[{}]'
-                    yield f_string.format(n), tag
+                    yield (f'[{n:X}]' if token_mode == 'tokens_hex'
+                           else f'[{n}]'), tag
                 # DATA
                 if n == 148:
                     inside_data = True
@@ -156,9 +156,10 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
                     yield prefixed_tokens[n][stream.read(1)[0]], 'keyword'
                 else:
                     yield '[', 'keyword'
-                    yield '{:X}'.format(n), 'comment'
-                    f_string = '{:X}]' if token_mode == 'tokens_hex' else '{}]'
-                    yield f_string.format(stream.read(1)[0]), 'keyword'
+                    yield f'{n:X}', 'comment'
+                    yield (f'{stream.read(1)[0]:X}]'
+                           if token_mode == 'tokens_hex'
+                           else f'{stream.read(1)[0]}]'), 'keyword'
 
             # float number token
             elif n == 0x15:
@@ -168,7 +169,7 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
             # hex number token
             elif n == 0x11:
                 num_16bit = int.from_bytes(stream.read(2), 'little')
-                yield '${:X}'.format(num_16bit), 'hex'
+                yield f'${num_16bit:X}', 'hex'
 
             # line number token
             elif n == 0x0b:
@@ -179,13 +180,13 @@ def text_repr(data, adr_to_num, token_mode, token_0c_mode, basic='700'):
             elif n == 0x0c:
                 line_adr = int.from_bytes(stream.read(2), 'little')
                 if token_0c_mode == 'address':
-                    yield '${:X}'.format(line_adr), 'special'
+                    yield f'${line_adr:X}', 'special'
                 elif token_0c_mode == 'number':
                     line_num = adr_to_num[line_adr]
                     yield str(line_num), 'line_number'
 
             else:
-                yield '[${:x}]'.format(n), 'special'
+                yield f'[${n:x}]', 'special'
 
 
 def get_float_40bit(sequence, return_string=False):
@@ -210,8 +211,7 @@ def get_float_40bit(sequence, return_string=False):
         result = 0.0
 
     if return_string:
-        format_string = '{:' + ('.0' if result.is_integer() else '') + 'f}'
-        return format_string.format(result)
+        return f'{result:.0f}' if result.is_integer() else f'{result:f}'
 
     else:
         return result
@@ -224,7 +224,7 @@ def retrieve_keywords(data, name):
     adr = i
     keyword = ''
     output_file = open(name + '_KEYWORDS.py', 'w')
-    print('{} = {{'.format(titles.pop()), file=output_file)
+    print(f'{titles.pop()} = {{', file=output_file)
     token = 0x80
 
     while True:
@@ -232,7 +232,7 @@ def retrieve_keywords(data, name):
         if n == 0xff:
             i += 1
             if titles:
-                print('}}\n{} = {{'.format(titles.pop()), file=output_file)
+                print(f'}}\n{titles.pop()} = {{', file=output_file)
                 token = 0x80
             else:
                 break
@@ -242,8 +242,8 @@ def retrieve_keywords(data, name):
             i += 1
             if flag:
                 if letter != '\x00':
-                    print('    {:#x}: {!r},    # {:#x}'
-                          .format(token, keyword, adr), file=output_file)
+                    print(f'    {token:#x}: {keyword!r},    # {adr:#x}',
+                          file=output_file)
                 keyword = ''
                 token += 1
                 adr = i
