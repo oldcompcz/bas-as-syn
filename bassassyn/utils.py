@@ -1,4 +1,6 @@
 import io
+import re
+import itertools
 
 from bassassyn import constants
 
@@ -220,34 +222,36 @@ def get_float_40bit(sequence, return_string=False):
         return result
 
 
-def retrieve_keywords(data, name):
-    titles = ['TOK_FF', 'TOK_FE', 'TOK']
-    # we assume that GOTO is the first keyword (b'O' + 0x80 = 0xcf)
-    i = data.index(b'GOT\xcf')
-    adr = i
-    keyword = ''
-    output_file = open(name + '_KEYWORDS.py', 'w')
-    print(f'{titles.pop()} = {{', file=output_file)
-    token = 0x80
+def retrieve_keywords(data):
+    start = data.index(b'GOT\xcf')
+    data = data[start:]
 
-    while True:
-        n = data[i]
-        if n == 0xff:
-            i += 1
-            if titles:
-                print(f'}}\n{titles.pop()} = {{', file=output_file)
-                token = 0x80
-            else:
-                break
-        else:
-            flag, letter = n & 0x80, chr(n & 0x7f)
-            keyword += letter
-            i += 1
-            if flag:
-                if letter != '\x00':
-                    print(f'    {token:#x}: {keyword!r},    # {adr:#x}',
-                          file=output_file)
-                keyword = ''
-                token += 1
-                adr = i
-    print('}', file=output_file)
+    for prefix, keywords in zip((0, 0xfe00, 0xff00), _retrieve_keywords(data)):
+        for token, keyword in zip(itertools.count(0x80), keywords):
+            if keyword is not None:
+                yield {
+                    'token': f'{prefix + token:#04x}',
+                    'keyword': keyword,
+                }
+
+
+def _retrieve_keywords(data):
+
+    def _decode(binary):
+        """Remove bit 7 from last byte and decode to ascii."""
+        if binary == b'\x80':
+            return None
+
+        binary = bytearray(binary)
+        binary[-1] &= 0x7f
+        return binary.decode(encoding='ascii')
+
+    # get three blocks of keywords
+    tokens, tokens_fe, tokens_ff, *_ = re.findall(rb'[\x20-\xfd]+\xff', data)
+
+    # for each clock, get keywords
+    for block in (tokens, tokens_fe, tokens_ff):
+        yield [
+            _decode(binary)
+            for binary in re.findall(rb'[\x20-\x7d]*[\x80-\xfd]', block)
+        ]

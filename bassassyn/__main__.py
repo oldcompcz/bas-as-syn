@@ -159,7 +159,6 @@ class TkApp(tk.Tk):
                 else:
                     prog_start = 0x6bcf
                     self.basic.set('700')
-                utils.retrieve_keywords(data, self.basename)
             else:
                 # MZF file
                 data = file_data[128:]
