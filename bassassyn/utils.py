@@ -41,9 +41,9 @@ def text_repr(data, adr_to_num=None,
     if adr_to_num is None:
         adr_to_num = {}
     if basic == '700':
-        tokens = constants.TOKENS_700
+        keywords = constants.TOKENS_700
     else:
-        tokens = constants.TOKENS_800
+        keywords = constants.TOKENS_800
 
     stream = io.BytesIO(data)
     inside_quotes = False
@@ -144,7 +144,7 @@ def text_repr(data, adr_to_num=None,
             # FE or FF prefix
             elif n in (0xfe, 0xff):
                 if token_mode == 'keywords':
-                    yield tokens[n][stream.read(1)[0]], 'keyword'
+                    yield keywords[n][stream.read(1)[0]], 'keyword'
                 else:
                     yield '[', 'keyword'
                     yield f'{n:X}', 'comment'
@@ -152,10 +152,10 @@ def text_repr(data, adr_to_num=None,
                            if token_mode == 'tokens_hex'
                            else f'{stream.read(1)[0]}]'), 'keyword'
 
-            elif n in tokens:
+            elif n in keywords:
                 tag = 'operator' if 234 <= n <= 253 else 'keyword'
                 if token_mode == 'keywords':
-                    yield tokens[n], tag
+                    yield keywords[n], tag
                 else:
                     yield (f'[{n:X}]' if token_mode == 'tokens_hex'
                            else f'[{n}]'), tag
@@ -251,12 +251,12 @@ def _retrieve(data):
     start = data.index(b'GOT\xcf')
     data = data[start:]
 
-    # get three blocks of keywords
-    tokens, tokens_fe, tokens_ff, *_ = re.findall(rb'[\x20-\xfd]+\xff', data)
+    # get three groups of keywords
+    group_1, group_2, group_3, *_ = re.findall(rb'[\x20-\xfd]+\xff', data)
 
-    # for each clock, get keywords
-    for block in (tokens, tokens_fe, tokens_ff):
+    # for each group, decode keywords to strings
+    for group in (group_1, group_2, group_3):
         yield [
             _decode(binary)
-            for binary in re.findall(rb'[\x20-\x7d]*[\x80-\xfd]', block)
+            for binary in re.findall(rb'[\x20-\x7d]*[\x80-\xfd]', group)
         ]
