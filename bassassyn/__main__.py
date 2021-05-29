@@ -154,7 +154,7 @@ class TkApp(tk.Tk):
                 # MZS file
                 data = file_data[4:]
                 prog_start = int.from_bytes(data[0x1070:0x1072], 'little')
-                if prog_start in (0xa3fa, 0x9f9e):
+                if prog_start in (0xa3fa, 0x9f9e, 0xa473):
                     self.basic.set('800')
                 else:
                     prog_start = 0x6bcf
