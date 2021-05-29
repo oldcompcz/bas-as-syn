@@ -41,9 +41,9 @@ def text_repr(data, adr_to_num=None,
     if adr_to_num is None:
         adr_to_num = {}
     if basic == '700':
-        tokens, prefixed_tokens = constants.TOKENS_700, constants.PREFIXED_700
+        tokens = constants.TOKENS_700
     else:
-        tokens, prefixed_tokens = constants.TOKENS_800, constants.PREFIXED_800
+        tokens = constants.TOKENS_800
 
     stream = io.BytesIO(data)
     inside_quotes = False
@@ -141,6 +141,17 @@ def text_repr(data, adr_to_num=None,
             elif 0x20 <= n <= 0x5d:
                 yield chr(n), 'identifier'
 
+            # FE or FF prefix
+            elif n in (0xfe, 0xff):
+                if token_mode == 'keywords':
+                    yield tokens[n][stream.read(1)[0]], 'keyword'
+                else:
+                    yield '[', 'keyword'
+                    yield f'{n:X}', 'comment'
+                    yield (f'{stream.read(1)[0]:X}]'
+                           if token_mode == 'tokens_hex'
+                           else f'{stream.read(1)[0]}]'), 'keyword'
+
             elif n in tokens:
                 tag = 'operator' if 234 <= n <= 253 else 'keyword'
                 if token_mode == 'keywords':
@@ -154,17 +165,6 @@ def text_repr(data, adr_to_num=None,
                 # REM
                 if n == 151:
                     inside_comment = True
-
-            # FE or FF prefix
-            elif n in (0xfe, 0xff):
-                if token_mode == 'keywords':
-                    yield prefixed_tokens[n][stream.read(1)[0]], 'keyword'
-                else:
-                    yield '[', 'keyword'
-                    yield f'{n:X}', 'comment'
-                    yield (f'{stream.read(1)[0]:X}]'
-                           if token_mode == 'tokens_hex'
-                           else f'{stream.read(1)[0]}]'), 'keyword'
 
             # float number token
             elif n == 0x15:

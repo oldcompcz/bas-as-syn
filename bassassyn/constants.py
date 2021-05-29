@@ -105,9 +105,7 @@ TOKENS_700 = {
     0xfb: '/',
     0xfc: '*',
     0xfd: '^',
-}
 
-PREFIXED_700 = {
     0xfe: {
         0x81: 'SET',
         0x82: 'RESET',
@@ -120,6 +118,7 @@ PREFIXED_700 = {
         0xa7: 'LIMIT',
         0xae: 'BOOT',
     },
+
     0xff: {
         0x80: 'INT',
         0x81: 'ABS',
@@ -263,9 +262,7 @@ TOKENS_800 = {
     0xfb: '/',
     0xfc: '*',
     0xfd: '↑',
-}
 
-PREFIXED_800 = {
     0xfe: {
         0x81: 'CSET',
         0x82: 'CRESET',
@@ -294,6 +291,7 @@ PREFIXED_800 = {
         0xa7: 'LIMIT',
         0xae: 'BOOT',
     },
+
     0xff: {
         0x80: 'INT',
         0x81: 'ABS',
