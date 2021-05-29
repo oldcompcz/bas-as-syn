@@ -17,6 +17,7 @@ class TkApp(tk.Tk):
         self.save_dir = None
         self.basename = None
         self.lines = None
+        self.keywords = None
         self.adr_to_num = None
 
         self.token_mode = tk.StringVar()
@@ -165,6 +166,11 @@ class TkApp(tk.Tk):
                 prog_start = 0
 
             try:
+                self.keywords = utils.retrieve_keywords(data)
+            except ValueError:
+                self.keywords = None
+
+            try:
                 self.lines = list(utils.grab_data(data, prog_start))
             except ValueError as err:
                 print(f'{prog_start=:#x}: {err}')
@@ -208,11 +214,11 @@ class TkApp(tk.Tk):
                 # insert bytes repr without leading b' and trailing '
                 self.listing.insert('end', repr(line['contents'])[2:-1])
             else:
-                for chunk, tag in utils.text_repr(line['contents'],
-                                                  self.adr_to_num,
-                                                  self.token_mode.get(),
-                                                  self.token_0c_mode.get(),
-                                                  self.basic.get()):
+                for chunk, tag in utils.text_repr(
+                        line['contents'],
+                        self.keywords, self.basic.get(), self.adr_to_num,
+                        self.token_mode.get(), self.token_0c_mode.get()
+                ):
                     self.listing.insert('end', chunk, tag)
             self.listing.insert('end', '\n')
 

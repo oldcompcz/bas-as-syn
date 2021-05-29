@@ -35,15 +35,14 @@ def grab_data(data, start):
         yield line_info
 
 
-def text_repr(data, adr_to_num=None,
-              token_mode='keywords', token_0c_mode='number', basic='700'):
+def text_repr(data, keywords=None, basic='700', adr_to_num=None,
+              token_mode='keywords', token_0c_mode='number'):
     """Generate a sequence representing elements of a Basic line."""
+    if keywords is None:
+        keywords = (constants.TOKENS_700 if basic == '700'
+                    else constants.TOKENS_800)
     if adr_to_num is None:
         adr_to_num = {}
-    if basic == '700':
-        keywords = constants.TOKENS_700
-    else:
-        keywords = constants.TOKENS_800
 
     stream = io.BytesIO(data)
     inside_quotes = False
