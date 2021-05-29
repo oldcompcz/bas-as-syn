@@ -223,10 +223,7 @@ def get_float_40bit(sequence, return_string=False):
 
 
 def retrieve_keywords(data):
-    start = data.index(b'GOT\xcf')
-    data = data[start:]
-
-    for prefix, keywords in zip((0, 0xfe00, 0xff00), _retrieve_keywords(data)):
+    for prefix, keywords in zip((0, 0xfe00, 0xff00), _retrieve(data)):
         for token, keyword in zip(itertools.count(0x80), keywords):
             if keyword is not None:
                 yield {
@@ -235,7 +232,7 @@ def retrieve_keywords(data):
                 }
 
 
-def _retrieve_keywords(data):
+def _retrieve(data):
 
     def _decode(binary):
         """Remove bit 7 from last byte and decode to ascii."""
@@ -245,6 +242,9 @@ def _retrieve_keywords(data):
         binary = bytearray(binary)
         binary[-1] &= 0x7f
         return binary.decode(encoding='ascii')
+
+    start = data.index(b'GOT\xcf')
+    data = data[start:]
 
     # get three blocks of keywords
     tokens, tokens_fe, tokens_ff, *_ = re.findall(rb'[\x20-\xfd]+\xff', data)
