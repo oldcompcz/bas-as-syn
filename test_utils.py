@@ -97,38 +97,36 @@ def basic_800(request):
 
 def test_retrieve_keywords_basic_700_800(basic_700_800):
     """Test `utils.retrieve_keywords`."""
-    result = list(retrieve_keywords(basic_700_800))
-    assert result[0] == {'token': '0x80', 'keyword': 'GOTO'}
-    assert result[-1] == {'token': '0xffc7', 'keyword': 'FN'}
-    assert {'token': '0x8f', 'keyword': 'PRINT'} in result
-    assert {'token': '0xfea2', 'keyword': 'MUSIC'} in result
-    assert {'token': '0xffa0', 'keyword': 'CHR$'} in result
+    result = retrieve_keywords(basic_700_800)
+    assert result[0x80] == 'GOTO'
+    assert result[0xff][0xc7] == 'FN'
+    assert result[0x8f] == 'PRINT'
+    assert result[0xfe][0xa2] == 'MUSIC'
+    assert result[0xff][0xa0] == 'CHR$'
 
 
 def test_retrieve_keywords_basic_700(basic_700):
     """Test `utils.retrieve_keywords`."""
-    result = list(retrieve_keywords(basic_700))
-    assert {'token': '0xc0', 'keyword': 'ERASE'} in result
-    assert not any(item['token'] == '0xdc' for item in result)
-    assert not any(item['token'] == '0xfe97' for item in result)
-    assert {'token': '0xff9e', 'keyword': 'JOY'} in result
-    assert not any(item['token'] == '0xffc5' for item in result)
-
-    assert {'token': '0xba', 'keyword': 'OUT#'} in result
-    assert {'token': '0xfe81', 'keyword': 'SET'} in result
+    result = retrieve_keywords(basic_700)
+    assert result[0xc0] == 'ERASE'
+    assert 0xdc not in result
+    assert 0x97 not in result[0xfe]
+    assert result[0xff][0x9e] == 'JOY'
+    assert 0xc5 not in result[0xff]
+    assert result[0xba] == 'OUT#'
+    assert result[0xfe][0x81] == 'SET'
 
 
 def test_retrieve_keywords_basic_800(basic_800):
     """Test `utils.retrieve_keywords`."""
-    result = list(retrieve_keywords(basic_800))
-    assert not any(item['token'] == '0xc0' for item in result)
-    assert {'token': '0xdc', 'keyword': 'INIT'} in result
-    assert {'token': '0xfe97', 'keyword': 'CIRCLE'} in result
-    assert not any(item['token'] == '0xff9e' for item in result)
-    assert {'token': '0xffc5', 'keyword': 'POINT'} in result
-
-    assert {'token': '0xba', 'keyword': 'OUT@'} in result
-    assert {'token': '0xfe81', 'keyword': 'CSET'} in result
+    result = retrieve_keywords(basic_800)
+    assert 0xc0 not in result
+    assert result[0xdc] == 'INIT'
+    assert result[0xfe][0x97] == 'CIRCLE'
+    assert 0x9e not in result[0xff]
+    assert result[0xff][0xc5] == 'POINT'
+    assert result[0xba] == 'OUT@'
+    assert result[0xfe][0x81] == 'CSET'
 
 
 def test_retrieve_basic_700_800(basic_700_800):

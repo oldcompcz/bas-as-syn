@@ -223,13 +223,18 @@ def get_float_40bit(sequence, return_string=False):
 
 
 def retrieve_keywords(data):
-    for prefix, keywords in zip((0, 0xfe00, 0xff00), _retrieve(data)):
+    result = {0xfe: {}, 0xff: {}}
+
+    for prefix, keywords in zip((None, 0xfe, 0xff), _retrieve(data)):
         for token, keyword in zip(itertools.count(0x80), keywords):
-            if keyword is not None:
-                yield {
-                    'token': f'{prefix + token:#04x}',
-                    'keyword': keyword,
-                }
+            if keyword is None:
+                continue
+            if prefix:
+                result[prefix][token] = keyword
+            else:
+                result[token] = keyword
+
+    return result
 
 
 def _retrieve(data):
