@@ -239,23 +239,30 @@ def retrieve_keywords(data):
 def _retrieve(data):
 
     def _decode(binary):
-        """Remove bit 7 from last byte and decode to ascii."""
         if binary == b'\x80':
+            # skip blank keywords
             return None
 
         binary = bytearray(binary)
+        # reset end flag (highest bit of the last byte) and return as string
         binary[-1] &= 0x7f
         return binary.decode(encoding='ascii')
 
     start = data.index(b'GOT\xcf')
     data = data[start:]
 
+    # block of chars, ended with 0xff
+    group_regex = rb'[\x20-\xfd]+\xff'
+
     # get three groups of keywords
-    group_1, group_2, group_3, *_ = re.findall(rb'[\x20-\xfd]+\xff', data)
+    group_1, group_2, group_3, *_ = re.findall(group_regex, data)
+
+    # block of chars, with last byte having highest bit set
+    keyword_regex = rb'[\x20-\x7d]*[\x80-\xfd]'
 
     # for each group, decode keywords to strings
     for group in (group_1, group_2, group_3):
         yield [
             _decode(binary)
-            for binary in re.findall(rb'[\x20-\x7d]*[\x80-\xfd]', group)
+            for binary in re.findall(keyword_regex, group)
         ]
